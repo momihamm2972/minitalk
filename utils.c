@@ -6,11 +6,21 @@
 /*   By: momihamm <momihamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 15:23:46 by momihamm          #+#    #+#             */
-/*   Updated: 2023/04/09 09:51:30 by momihamm         ###   ########.fr       */
+/*   Updated: 2023/04/14 03:01:12 by momihamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+int ft_strlen(char *str)
+{
+	int	indx;
+
+	indx = 0;
+	while (str[indx])
+		indx++;
+	return (indx);
+}
 
 int	ft_atoi(const char *str)
 {
@@ -39,4 +49,63 @@ int	ft_atoi(const char *str)
 			break ;
 	}
 	return (r * s);
+}
+
+// void	take_bits(char *str)
+// {
+// 	int	indx;
+// 	int pofs;
+// 	int shed;
+	
+// 	indx = 0;
+// 	shed = 1;
+// 	while (str[indx])
+// 	{
+// 		pofs = 7;
+// 		while (pofs >= 0)
+// 		{
+// 			if ((str[indx] & shed << pofs) == 0)
+// 				printf ("0");
+// 				//kill(av[1],)
+// 			else
+// 				printf ("1");
+// 			pofs--;
+// 		}
+// 		printf ("***");
+// 		indx++;
+// 	}
+// }
+
+char	enter_bits(char *str)
+{
+	char	c;
+	int	ixofs;
+	int	indix;
+
+	c = 0;
+	ixofs = 0;
+	indix = ft_strlen (str) - 1;
+	while (indix >= 0)
+	{
+		if (str[indix] == '1')
+			c = c | (1 << ixofs);
+		indix--;
+		ixofs++;
+	}
+	return (c);
+}
+
+int check_if_valid(char *str)
+{
+    int indx;
+    
+    indx = 0;
+    while (str[indx])
+    {
+        if (str[indx] >= '0' && str[indx] <= '9')
+            indx++;
+        else
+            return (1);
+    }
+    return (0);
 }
