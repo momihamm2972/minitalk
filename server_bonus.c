@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momihamm <momihamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/08 10:13:06 by momihamm          #+#    #+#             */
-/*   Updated: 2023/04/26 20:30:40 by momihamm         ###   ########.fr       */
+/*   Created: 2023/04/18 00:50:29 by momihamm          #+#    #+#             */
+/*   Updated: 2023/04/26 22:58:17 by momihamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 void	enter_bits(int signum, siginfo_t *c_pid, void *content)
 {
@@ -30,6 +30,8 @@ void	enter_bits(int signum, siginfo_t *c_pid, void *content)
 	indx--;
 	if (indx < 0)
 	{
+		if (c == 0)
+			kill (pid, SIGUSR2);
 		write (1, &c, 1);
 		indx = 7;
 		c = 0;
@@ -41,10 +43,10 @@ int	main(int ac, char **av)
 	struct sigaction	my_struct;
 	pid_t				pross_id;
 
+	pross_id = getpid();
 	(void) av;
 	if (ac == 1)
 	{
-		pross_id = getpid();
 		ft_putstr ("PID : ");
 		ft_putnbr (pross_id);
 		write (1, "\n", 1);
@@ -57,5 +59,4 @@ int	main(int ac, char **av)
 	}
 	else
 		ft_putstr ("THE SERVER DOES'T TAKE ANY ARGUMENT!!\n");
-	return (0);
 }

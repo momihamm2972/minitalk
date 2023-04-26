@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momihamm <momihamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/08 10:12:56 by momihamm          #+#    #+#             */
-/*   Updated: 2023/04/26 22:11:32 by momihamm         ###   ########.fr       */
+/*   Created: 2023/04/18 00:50:07 by momihamm          #+#    #+#             */
+/*   Updated: 2023/04/26 19:31:18 by momihamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 int	check_if_valid(char *str)
 {
@@ -27,12 +27,33 @@ int	check_if_valid(char *str)
 	return (0);
 }
 
+void	print_msg(int sig)
+{
+	(void) sig;
+	write (1, "THE MESSAGE WAS SENT SUCCESSFULLY!\n", 36);
+}
+
+void	recieve(int pid)
+{
+	int	indx;
+
+	indx = 0;
+	while (indx < 8)
+	{
+		kill (pid, SIGUSR2);
+		usleep (800);
+		indx++;
+	}
+}
+
 void	take_bits(char *str, int pid)
 {
 	int	indx;
 	int	pofs;
+	int	i_of_reciev;
 
 	indx = 0;
+	i_of_reciev = 0;
 	while (str[indx])
 	{
 		pofs = 7;
@@ -41,12 +62,15 @@ void	take_bits(char *str, int pid)
 			if ((str[indx] & 1 << pofs) == 0)
 				kill (pid, SIGUSR2);
 			else
-				kill (pid, SIGUSR1);
-			usleep(1000);
+				kill (pid, 30);
+			usleep(800);
+			signal (SIGUSR2, print_msg);
 			pofs--;
 		}
 		indx++;
 	}
+	if (str[indx] == '\0')
+		recieve (pid);
 }
 
 int	main(int ac, char **av)

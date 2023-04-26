@@ -6,13 +6,13 @@
 /*   By: momihamm <momihamm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 15:23:46 by momihamm          #+#    #+#             */
-/*   Updated: 2023/04/14 03:01:12 by momihamm         ###   ########.fr       */
+/*   Updated: 2023/04/26 21:16:01 by momihamm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	indx;
 
@@ -51,61 +51,38 @@ int	ft_atoi(const char *str)
 	return (r * s);
 }
 
-// void	take_bits(char *str)
-// {
-// 	int	indx;
-// 	int pofs;
-// 	int shed;
-	
-// 	indx = 0;
-// 	shed = 1;
-// 	while (str[indx])
-// 	{
-// 		pofs = 7;
-// 		while (pofs >= 0)
-// 		{
-// 			if ((str[indx] & shed << pofs) == 0)
-// 				printf ("0");
-// 				//kill(av[1],)
-// 			else
-// 				printf ("1");
-// 			pofs--;
-// 		}
-// 		printf ("***");
-// 		indx++;
-// 	}
-// }
-
-char	enter_bits(char *str)
+void	ft_putchar(char c)
 {
-	char	c;
-	int	ixofs;
-	int	indix;
-
-	c = 0;
-	ixofs = 0;
-	indix = ft_strlen (str) - 1;
-	while (indix >= 0)
-	{
-		if (str[indix] == '1')
-			c = c | (1 << ixofs);
-		indix--;
-		ixofs++;
-	}
-	return (c);
+	write (1, &c, 1);
 }
 
-int check_if_valid(char *str)
+void	ft_putstr(char *str)
 {
-    int indx;
-    
-    indx = 0;
-    while (str[indx])
-    {
-        if (str[indx] >= '0' && str[indx] <= '9')
-            indx++;
-        else
-            return (1);
-    }
-    return (0);
+	int	indx;
+
+	indx = 0;
+	while (str[indx])
+	{
+		ft_putchar (str[indx]);
+		indx++;
+	}
+}
+
+void	ft_putnbr(int nb)
+{
+	if (nb >= 0 && nb < 10)
+		ft_putchar (nb + '0');
+	if (nb > 9)
+	{
+		ft_putnbr (nb / 10);
+		ft_putnbr (nb % 10);
+	}
+	if (nb < 0 && nb > -2147483648)
+	{
+		write (1, "-", 1);
+		nb *= -1;
+		ft_putnbr (nb);
+	}
+	if (nb == -2147483648)
+		write (1, "-2147483648", 11);
 }
